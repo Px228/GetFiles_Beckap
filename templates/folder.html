@@ -845,12 +845,12 @@
             transition: all ease .8s;
         }
 
-        .close:before {
+        /* .close:before {
             color: rgba(255, 255, 255, 0.9);
             content: "X";
             text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
             font-size: 12px;
-        }
+        } */
 
         .close:hover {
             background-color: rgba(252, 20, 0, 0.8);
@@ -905,7 +905,7 @@
 
         #mySidenav a {
             position: absolute;
-            left: -50px;
+            left: 0px;
             transition: 0.3s;
             padding: 15px;
             width: 100px;
@@ -915,9 +915,9 @@
             border-radius: 0 5px 5px 0;
         }
 
-        #mySidenav a:hover {
+        /* #mySidenav a:hover {
             left: 0;
-        }
+        } */
 
         #about {
             top: 10px;
@@ -935,8 +935,13 @@
         } */
 
         #contact {
-            top: 10px;
+            top: 85px;
             background-color: #555
+        }
+
+        #Back_ss {
+            top: 10px;
+            background-color: #e0aa15
         }
 
         .upload-popup {
@@ -1009,12 +1014,61 @@
             top: 5px;
             right: 5px;
         }
+
+        /* Add this to your CSS styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            overflow: auto;
+            animation: fadeIn 0.5s ease-out; /* Fade-in animation */
+        }
+
+        .modal-content {
+            background-color: #891515;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #ff0000;
+            width: 20%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out; /* Slide-in animation */
+        }
+
+        /* Close button styling */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Keyframe animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); }
+            to { transform: translateY(0); }
+        }
     </style>
 </head>
 
 <body class="unselectable">
     <div id="mySidenav" class="sidenav">
-        <!-- <a href="#" id="about">About</a> -->
+        <a href="{{ url_for('index') }}" id="Back_ss"> Назад </a>
         <!-- <a href="#" id="blog">Blog</a> -->
         <!-- <a href="#" id="projects">Projects</a> -->
         <a href="#win1" id="contact">+ папка</a>
@@ -1028,7 +1082,7 @@
         <ul class="main-menu">
             {% if 'username' in session %}
             <li class="menu">
-                <a href="{{ url_for('index') }}" class=" main-menu__ menu" style="color: #ffffff;">!! Назад !!</a>
+                <!-- <a href="{{ url_for('index') }}" class=" main-menu__ menu" style="color: #ffffff;">!! Назад !!</a> -->
                 <a href="{{ url_for('account') }}">Аккаунт: <span class="main-menu__">{{ session['username']
                         }}</span></a>
 
@@ -1111,8 +1165,7 @@
                 <li style="border-radius: 10px;">
                     <span style="color: #fff200;">Folder</span> <span>{{ folder }}</span> |
                     <a style="color: #ffb62f;" href="{{ url_for('open_subfolder', folder_name=folder_name, subfolder_name=folder) }}">Відкрити папку</a>
-                    <!-- <a style="color: #e56d1e;" href="{{ url_for('delete_subfolder', folder_name=folder_name, subfolder_name=folder) }}">Delete Folder</a> -->
-                    <a href="javascript:void(0);" onclick="confirmDelete('{{ url_for('delete_subfolder', folder_name=folder_name, subfolder_name=folder) }}', '{{ file }}')">
+                    <a href="javascript:void(0);" onclick="confirmDelete('{{ url_for('delete_subfolder', folder_name=folder_name, subfolder_name=folder) }}', '{{ folder }}')">
                         <i class="fas fa-trash-alt" style="color: #e53c1e;"></i>
                     </a>
                 </li>
@@ -1123,6 +1176,14 @@
         {% endif %}
     </center>
 
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span id="closeBtn" class="close">&times;</span>
+            <p id="modalText" style="font-size: 20px;"></p>
+            <center><button id="deleteBtn" style="color: #edff00; width: 80px;">Видалити</button></center>
+        </div>
+    </div>
 
     <a href="#x" class="overlay" id="win1"></a>
     <div class="popup">
@@ -1192,9 +1253,42 @@
         });
 
         function confirmDelete(action, itemName) {
-            var result = confirm("Are you sure you want to delete " + itemName + "?");
-            if (result) {
+            var modal = document.getElementById('deleteModal');
+            var modalText = document.getElementById('modalText');
+            
+            // Set modal text
+            // modalText.innerHTML = "Ви впевнені, що хочете видалити " + itemName;
+            modalText.innerHTML = "<span style='color: #ff9b00;'>Ви впевнені, що хочете видалити </span><span style='color: #8491ff;'>" + itemName + "</span>";
+
+
+            // Display the modal
+            modal.style.display = 'block';
+
+            // Event listener for confirming delete
+            document.getElementById('deleteBtn').onclick = function () {
                 window.location.href = action;
+                closeModal();
+            };
+
+            // Event listener for the close button
+            document.getElementById('closeBtn').onclick = function () {
+                closeModal();
+            };
+
+            // Event listener for clicking on the overlay
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            };
+
+            function closeModal() {
+                modal.style.display = 'none';
+
+                // Remove event listeners to prevent memory leaks
+                document.getElementById('deleteBtn').onclick = null;
+                document.getElementById('closeBtn').onclick = null;
+                window.onclick = null;
             }
         }
     </script>

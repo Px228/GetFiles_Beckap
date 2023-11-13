@@ -915,7 +915,7 @@
 
         #mySidenav a {
             position: absolute;
-            left: -50px;
+            left: -10px;
             transition: 0.3s;
             padding: 15px;
             width: 100px;
@@ -925,9 +925,9 @@
             border-radius: 0 5px 5px 0;
         }
 
-        #mySidenav a:hover {
+        /* #mySidenav a:hover {
             left: 0;
-        }
+        } */
 
         #about {
             top: 10px;
@@ -947,6 +947,11 @@
         #contact {
             top: 10px;
             background-color: #555
+        }
+
+        #Back_ss {
+            top: 10px;
+            background-color: #e0aa15
         }
 
         .upload-popup {
@@ -1090,7 +1095,8 @@
         {% endwith %}
 
         <div id="mySidenav" class="sidenav">
-            <!-- <a href="#" id="about">About</a> -->
+            <!-- <a href="{{ url_for('index') }}" id="Back_ss"> Назад </a> -->
+            <!-- <a href="{{ url_for('index') }}" class=" main-menu__ menu" style="color: #ffffff;">!! Назад !!</a> -->
             <!-- <a href="#" id="blog">Blog</a> -->
             <!-- <a href="#" id="projects">Projects</a> -->
             <a href="#win1" id="contact">+ папка</a>
