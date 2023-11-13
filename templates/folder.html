@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- <title>File Manager - {{ folder_name }}</title> -->
+    <title>File Sharing</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/getFiles-beckap.ico') }}" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='fonts/iconic/css/material-design-iconic-font.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/css-hamburgers/hamburgers.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/animsition/css/animsition.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .text-with-button {
+            align-items: center;
+        }
+
+        .text-with-button p {
+            margin-right: 10px;
+        }
+
+        .main-menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .main-menu>li {
+            display: inline-flex;
+        }
+
+        .main-menu>li+li {
+            margin-left: 20px;
+        }
+
+        .main-menu>li>a {
+            padding: 0 0 20px 0;
+            position: relative;
+            text-transform: uppercase;
+            color: #8b8686;
+            font-weight: bold;
+            letter-spacing: 0.2px;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .main-menu__ {
+            padding: 0 0 20px 0;
+            position: relative;
+            text-transform: uppercase;
+            color: #7e7fb9;
+            font-weight: bold;
+            letter-spacing: 0.2px;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .main-menu>li>a:hover {
+            text-decoration: none;
+            color: #7e7fb9;
+        }
+
+        .main-menu>li>a:after {
+            width: 0;
+            height: 3px;
+            background-color: #4446b1;
+            content: '';
+            left: 0;
+            bottom: 10px;
+            position: absolute;
+            transition: all .3s;
+        }
+
+        .main-menu>li>a:hover::after {
+            width: 100%;
+        }
+
+        .main-menu>li.active a:after {
+            width: 100%;
+        }
+
+        .main-menu li {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .main-menu li.menu-children {
+            position: relative;
+            margin-right: 12px;
+        }
+
+        .main-menu li.menu-children:after {
+            position: absolute;
+            content: "\2039";
+            color: #337AB7;
+            font-size: 20px;
+            font-weight: bold;
+            right: -12px;
+            top: -2px;
+            transform: rotate(-90deg);
+        }
+
+        .main-menu li li.menu-children:after {
+            position: absolute;
+            content: "\2039";
+            color: #FFF;
+            font-size: 20px;
+            font-weight: bold;
+            right: 10px;
+            top: 12px;
+            transform: rotate(180deg);
+        }
+
+        .main-menu li.menu-children:hover>ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .main-menu ul {
+            padding: 10px 0;
+            margin: 0;
+            list-style: none;
+            background-color: #337AB7;
+            position: absolute;
+            z-index: 20;
+            min-width: 220px;
+            top: 100%;
+            left: -30px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(5px);
+            transition: all 200ms cubic-bezier(0.43, 0.59, 0.16, 1.25);
+        }
+
+        .main-menu ul li {
+            display: block;
+            padding: 0 10px;
+            line-height: 1.1;
+        }
+
+        .main-menu ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .main-menu ul li a {
+            display: block;
+            color: #fff;
+            padding: 10px;
+            transition: all .3s;
+            text-decoration: none;
+        }
+
+        .main-menu ul li a:hover {
+            color: #337AB7;
+            background: #FFF;
+            text-decoration: none;
+        }
+
+        .main-menu ul ul {
+            top: 0;
+            left: 100%;
+        }
+
+
+        /* @charset "UTF-8"; */
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300&subset=latin,cyrillic);
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 100%;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            color: #333;
+            font: 1em 'Open Sans', sans-serif;
+            background-color: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar {
+            width: .65em;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #333;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(170, 170, 170, 0.6);
+            border-radius: 5px;
+            box-shadow: inset 0.05em 0.05em 0 rgba(0, 0, 0, 0.1), inset 0 -0.05em 0 rgba(0, 0, 0, 0.07);
+        }
+
+        main {
+            max-width: 1024px;
+            margin: 0 auto
+        }
+
+        article {
+            margin: 0 1em;
+            padding: 0 22px;
+            -webkit-transition: -webkit-transform .3s;
+            -moz-transition: -moz-transform .3s;
+            transition: transform .3s;
+        }
+
+        header {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        footer {
+            font-size: 14px;
+            text-align: center
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        hr {
+            margin: 22px 0;
+            height: 1px;
+            border: 0;
+            background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            background-image: linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+        }
+
+        h1,
+        h2 {
+            margin-bottom: 22px;
+            color: #191919;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 32px;
+            line-height: 32px;
+        }
+
+        h2 {
+            color: #565d66;
+            font-size: 26px;
+            line-height: 26px;
+        }
+
+        a {
+            color: #006b05;
+            text-decoration: none;
+        }
+
+        .menu {
+            position: fixed;
+            right: 10px;
+            top: 1%;
+            padding: 10px;
+        }
+
+        .custom-file-button {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #337ab7;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .custom-file-button input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .custom-file-button:hover {
+            background-color: #286090;
+        }
+
+
+        body {
+            color: #8b8686;
+            background-color: #333;
+        }
+
+        .text_lac {
+            margin-bottom: 22px;
+            color: #6f70a7;
+            font-weight: 300;
+        }
+
+        .ss {
+            margin-bottom: 22px;
+            color: #4446b1;
+            font-weight: 300;
+        }
+
+
+        .input-file {
+            position: relative;
+            display: inline-block;
+        }
+
+        .input-file-btn {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            outline: none;
+            text-decoration: none;
+            font-size: 14px;
+            vertical-align: middle;
+            color: rgb(255 255 255);
+            text-align: center;
+            border-radius: 4px;
+            background-color: #007bff;
+            line-height: 22px;
+            height: 40px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            border: none;
+            margin: 0;
+            transition: background-color 0.2s;
+        }
+
+        .input-file-text {
+            padding: 0 10px;
+            line-height: 40px;
+            display: inline-block;
+        }
+
+        .input-file input[type=file] {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            display: block;
+            width: 0;
+            height: 0;
+        }
+
+        .input-file input[type=file]:focus+.input-file-btn {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+        }
+
+        .input-file:hover .input-file-btn {
+            background-color: #007bff;
+        }
+
+        .input-file:active .input-file-btn {
+            background-color: #0063cd;
+        }
+
+        .input-file input[type=file]:disabled+.input-file-btn {
+            background-color: #eee;
+        }
+
+        .vk,
+        .ok,
+        .mail {
+            display: inline-block;
+        }
+
+        .list-rectangle {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .list-rectangle>li {
+            position: relative;
+            display: block;
+            margin-bottom: .25rem;
+            padding: .325rem .825rem .325rem 1.325rem;
+            color: #fff;
+            background: #1c4454;
+            width: 500px;
+        }
+
+        .list-rectangle>li:last-child {
+            margin-bottom: 0;
+        }
+
+        .list-rectangle>li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0.5rem;
+            background: #2f376f;
+        }
+
+        .left_btn {
+            text-align: left;
+        }
+
+        .unselectable {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            padding-top: 52px;
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        .swe {
+            font-size: 18px;
+        }
+
+        @media screen and (max-width: 1200px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 992px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
+        @media screen and (max-width: 320px) {
+            html {
+                font-size: 18px;
+            }
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            /* border-radius: 10px; */
+        }
+
+        .custom-field {
+            position: relative;
+            font-size: 14px;
+            border-top: 20px solid transparent;
+            margin-bottom: 5px;
+            display: inline-block;
+            --field-padding: 12px;
+        }
+
+        .custom-field input {
+            border: none;
+            -webkit-appearance: none;
+            -ms-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: #f2f2f2;
+            padding: var(--field-padding);
+            border-radius: 3px;
+            width: 250px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .custom-field .placeholder {
+            position: absolute;
+            left: var(--field-padding);
+            width: calc(100% - (var(--field-padding) * 2));
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            top: 22px;
+            line-height: 100%;
+            transform: translateY(-50%);
+            color: #aaa;
+            transition:
+                top 0.3s ease,
+                color 0.3s ease,
+                font-size 0.3s ease;
+        }
+
+        .custom-field input.dirty+.placeholder,
+        .custom-field input:focus+.placeholder,
+        .custom-field input:not(:placeholder-shown)+.placeholder {
+            top: -10px;
+            font-size: 10px;
+            color: #222;
+        }
+
+        .custom-field .error-message {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 12px;
+            background: #d30909;
+            color: #fff;
+            height: 24px;
+        }
+
+        .custom-field .error-message:empty {
+            opacity: 0;
+        }
+
+        /* ONE */
+        .custom-field.one input {
+            background: none;
+            border: 2px solid #ddd;
+            transition: border-color 0.3s ease;
+        }
+
+        .custom-field.one input+.placeholder {
+            left: 8px;
+            padding: 0 5px;
+        }
+
+        .custom-field.one input.dirty,
+        .custom-field.one input:not(:placeholder-shown),
+        .custom-field.one input:focus {
+            border-color: #222;
+            transition-delay: 0.1s
+        }
+
+        .custom-field.one input.dirty+.placeholder,
+        .custom-field.one input:not(:placeholder-shown)+.placeholder,
+        .custom-field.one input:focus+.placeholder {
+            top: 0;
+            font-size: 10px;
+            color: #222;
+            background: #fff;
+            width: auto
+        }
+
+        /* TWO */
+        .custom-field.two input {
+            border-radius: 0;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            background:
+                linear-gradient(90deg, #222, #222) center bottom/0 0.15em no-repeat,
+                linear-gradient(90deg, #ccc, #ccc) left bottom/100% 0.15em no-repeat,
+                linear-gradient(90deg, #fafafa, #fafafa) left bottom/100% no-repeat;
+            transition: background-size 0.3s ease;
+        }
+
+        .custom-field.two input.dirty,
+        .custom-field.two input:not(:placeholder-shown),
+        .custom-field.two input:focus {
+            background-size: 100% 0.15em, 100% 0.1em, 100%;
+        }
+
+        /* THREE */
+        .custom-field.three {
+            --draw-duration: 0.1s;
+            --draw-color: #222;
+            --draw-line-width: 2px;
+            --draw-easing: linear;
+        }
+
+        .custom-field.three .border {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform: none;
+            display: flex;
+            align-items: center;
+            padding-left: 12px;
+            borde-radius: 3px;
+        }
+
+        .custom-field.three .border::after,
+        .custom-field.three .border::before {
+            content: "";
+            width: 0;
+            height: 0;
+            display: inline-block;
+            position: absolute;
+            border-radius: 3px;
+        }
+
+        .custom-field.three .border::before {
+            left: 0;
+            bottom: 0;
+            border-right: 0px solid var(--draw-color);
+            border-bottom: 0px solid var(--draw-color);
+            transition:
+                border 0s linear calc(var(--draw-duration) * 4),
+                height var(--draw-duration) var(--draw-easing) calc(var(--draw-duration) * 2),
+                width var(--draw-duration) var(--draw-easing) calc(var(--draw-duration) * 3);
+        }
+
+        .custom-field.three .border::after {
+            right: 0;
+            top: 0;
+            border-left: 0px solid var(--draw-color);
+            border-top: 0px solid var(--draw-color);
+            transition:
+                border 0s linear calc(var(--draw-duration) * 2),
+                height var(--draw-duration) var(--draw-easing),
+                width var(--draw-duration) var(--draw-easing) var(--draw-duration);
+        }
+
+        .custom-field.three input:focus~.border::before,
+        .custom-field.three input:not(:placeholder-shown)~.border::before,
+        .custom-field.three input.dirty~.border::before,
+        .custom-field.three input:focus~.border::after,
+        .custom-field.three input:not(:placeholder-shown)~.border::after,
+        .custom-field.three input.dirty~.border::after {
+            width: 100%;
+            height: 100%;
+            border-width: var(--draw-line-width);
+        }
+
+        .custom-field.three input:not(:placeholder-shown)~.border::before,
+        .custom-field.three input.dirty~.border::before,
+        .custom-field.three input:focus~.border::before {
+            transition-delay: 0s, var(--draw-duration), 0s;
+        }
+
+        .custom-field.three input:not(:placeholder-shown)~.border::after,
+        .custom-field.three input.dirty~.border::after,
+        .custom-field.three input:focus~.border::after {
+            transition-delay:
+                calc(var(--draw-duration) * 2),
+                calc(var(--draw-duration) * 3),
+                calc(var(--draw-duration) * 2);
+        }
+
+
+        /* Базовые стили слоя затемнения и модального окна  */
+        .overlay {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            visibility: hidden;
+            /* фон затемнения */
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            position: fixed;
+            /* фиксированное поцизионирование */
+            cursor: default;
+            /* тип курсара */
+            -webkit-transition: opacity .5s;
+            -moz-transition: opacity .5s;
+            -ms-transition: opacity .5s;
+            -o-transition: opacity .5s;
+            transition: opacity .5s;
+        }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .is-image {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            margin: 10&;
+            width: 100%;
+            height: auto;
+            /* скругление углов встроенных картинок */
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+        /* встроенные элементы м-медиа, фреймы */
+        embed,
+        iframe {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            margin: auto;
+            min-width: 320px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .popup h1 {
+            /* заголовок 1 */
+            color: #008000;
+            text-align: left;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            font: 24px 'Trebuchet MS', Helvetica, sans-serif;
+            font-weight: bold;
+        }
+
+        .popup h2 {
+            /* заголовок 2 */
+            color: #008000;
+            text-align: left;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+            font: 22px 'Trebuchet MS', Helvetica, sans-serif;
+        }
+
+        /*** Формируем стили модального окна ***/
+        .popup {
+            top: 0;
+            right: 0;
+            left: 0;
+            font-size: 14px;
+            z-index: 10;
+            display: block;
+            visibility: hidden;
+            margin: 0 auto;
+            width: 90%;
+            min-width: 320px;
+            max-width: 600px;
+            /* фиксированное позиционирование, окно стабильно при прокрутке */
+            position: fixed;
+            padding: 15px;
+            border: 1px solid #383838;
+            /* скругление углов */
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            border-radius: 4px;
+            background-color: #FFFFFF;
+            /* внешняя тень блока */
+            -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+            -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+            -ms-box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+            -o-box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.8);
+            /* полная прозрачность окна, появление при клике */
+            opacity: 0;
+            /* эффект перехода (появление) */
+            -webkit-transition: all ease .5s;
+            -moz-transition: all ease .5s;
+            -ms-transition: all ease .5s;
+            -o-transition: all ease .5s;
+            transition: all ease .5s;
+        }
+
+        /* активируем появление окна и затемнение фона */
+        .overlay:target+.popup {
+            top: 20%;
+            /* положение окна от верха страницы при появлении */
+            visibility: visible;
+            opacity: 1;
+            /* убираем прозрачность */
+        }
+
+        /* формируем кнопку закрытия */
+        .close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            -webkit-border-radius: 15px;
+            -moz-border-radius: 15px;
+            -ms-border-radius: 15px;
+            -o-border-radius: 15px;
+            border-radius: 15px;
+            background-color: rgba(61, 61, 61, 0.8);
+            -webkit-box-shadow: 0px 0px 10px #000;
+            -moz-box-shadow: 0px 0px 10px #000;
+            box-shadow: 0px 0px 10px #000;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            line-height: 20px;
+            /* задаём значения и эффект перехода при наведении */
+            -webkit-transition: all ease .8s;
+            -moz-transition: all ease .8s;
+            -ms-transition: all ease .8s;
+            -o-transition: all ease .8s;
+            transition: all ease .8s;
+        }
+
+        .close:before {
+            color: rgba(255, 255, 255, 0.9);
+            content: "X";
+            text-shadow: 0 -1px rgba(0, 0, 0, 0.9);
+            font-size: 12px;
+        }
+
+        .close:hover {
+            background-color: rgba(252, 20, 0, 0.8);
+            /* крутим кнопку при наведении */
+            -webkit-transform: rotate(360deg);
+            -moz-transform: rotate(360deg);
+            -ms-transform: rotate(360deg);
+            -o-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+
+        /* опционально при добавлении вложений */
+        .popup p,
+        .popup div {
+            margin-bottom: 10px;
+        }
+
+
+        /* button */
+
+        /* .button {
+
+            font-size: 20px;
+            color: white;
+            width: 270px;
+            text-decoration: none;
+            padding: 10px 5px;
+            border-radius: 10px;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            font-family: Helvetica, Arial, sans-serif;
+            transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -webkit-transition: all 0.3s;
+            cursor: pointer;
+
+        } */
+
+        /* .button-blue {
+            background-color: #0600FF;
+        }
+
+        .button:hover {
+            background-color: #5555ff;
+            box-shadow: 0 0 10px 10px #b7b7ff inset;
+        }
+
+        .button:active {
+            background-color: #0000ff;
+            box-shadow: 0 0 0 0 #ffffff;
+        } */
+
+        #mySidenav a {
+            position: absolute;
+            left: -50px;
+            transition: 0.3s;
+            padding: 15px;
+            width: 100px;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            border-radius: 0 5px 5px 0;
+        }
+
+        #mySidenav a:hover {
+            left: 0;
+        }
+
+        #about {
+            top: 10px;
+            background-color: #4CAF50;
+        }
+
+        /* #blog {
+            top: 80px;
+            background-color: #2196F3;
+        }
+
+        #projects {
+            top: 140px;
+            background-color: #f44336;
+        } */
+
+        #contact {
+            top: 10px;
+            background-color: #555
+        }
+
+        .upload-popup {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .upload-popup-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .progress {
+            width: 200px;
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: #4caf50;
+            transition: width 0.3s;
+        }
+
+        .progress-label {
+            display: block;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .unselectable {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;   /* Chrome/Safari/Opera */
+            -khtml-user-select: none;    /* Konqueror */
+            -moz-user-select: none;      /* Firefox */
+            -ms-user-select: none;       /* Internet Explorer/Edge */
+            user-select: none;           /* Non-prefixed version, currently
+                                            not supported by any browser */
+            }
+        .delete-icon {
+            color: #e53c1e; /* Set color */
+            font-size: 18px; /* Set font size */
+            cursor: pointer; /* Set cursor to pointer for better user interaction */
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .list-rectangle {
+            position: relative;
+        }
+
+        .list-rectangle li a i {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+        }
+    </style>
+</head>
+
+<body class="unselectable">
+    <div id="mySidenav" class="sidenav">
+        <!-- <a href="#" id="about">About</a> -->
+        <!-- <a href="#" id="blog">Blog</a> -->
+        <!-- <a href="#" id="projects">Projects</a> -->
+        <a href="#win1" id="contact">+ папка</a>
+    </div>
+    <center>
+        <h3 href="{{ url_for('account') }}" style="padding-bottom: 15px;">відкрита папка: <span
+                style="color: #d0bf28;">{{ folder_name }}</span></h3>
+    </center>
+
+    <center>
+        <ul class="main-menu">
+            {% if 'username' in session %}
+            <li class="menu">
+                <a href="{{ url_for('index') }}" class=" main-menu__ menu" style="color: #ffffff;">!! Назад !!</a>
+                <a href="{{ url_for('account') }}">Аккаунт: <span class="main-menu__">{{ session['username']
+                        }}</span></a>
+
+            </li>
+            {% endif %}
+        </ul>
+    </center>
+
+    <!-- <a href="{{ url_for('index') }}" class="main-menu  menu btn btn-primary">Back to Home</a> -->
+    <center>
+        <h3 style="padding-bottom: 15px;">Завантажити файл</h3>
+    </center>
+    <!-- <form action="{{ url_for('upload_file', folder_name=folder_name) }}" method="post" enctype="multipart/form-data">
+        <center>
+            <form method="post" enctype="multipart/form-data">
+                <label class="input-file mail">
+                    <input type="file" name="file">
+                    <span class="input-file-btn">виберіть файл</span>
+                    <span class="input-file-text">файл не вібраний</span>
+                </label>
+                <input type="submit" class="btn btn-primary" value="Upload">
+            </form>
+        </center>
+    </form> -->
+
+    <form id="upload-form" action="{{ url_for('upload_file', folder_name=folder_name) }}" method="post"
+        enctype="multipart/form-data">
+        <center>
+            <form method="post" enctype="multipart/form-data">
+                <label class="input-file mail">
+                    <input id="file-input" type="file" name="file">
+                    <span class="input-file-btn">виберіть файл</span>
+                    <span class="input-file-text">файл не вібраний</span>
+                </label>
+                <input type="button" class="btn btn-primary" value="Upload" onclick="showUploadPopup()">
+            </form>
+        </center>
+    </form>
+
+    <div id="upload-popup" class="upload-popup">
+        <div class="upload-popup-content">
+            <div class="progress">
+                <div id="progress-bar" class="progress-bar"></div>
+                <span id="percent-label" class="progress-label"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <center>
+        <h3>↓↓ ваші файли та папки ↓↓</h3>
+    </center>
+
+
+    <center>
+        <ul class="list-rectangle">
+            {% if files %}
+                {% for file in files %}
+                    <li style="border-radius: 10px; position: relative;">
+                        {% if file|check_if_directory %}
+                            <span style="color: #fff200;">Folder</span> <span>{{ file }}</span> |
+                            <a style="color: #ffb62f;" href="{{ url_for('open_folder', folder_name=file) }}">Відкрити папку</a>
+                        {% else %}
+                            <span>{{ file }}</span> |
+                            <span class="file-extension" style="color: #cbdf1b; position: absolute; left: -60px;">
+                                {{ file.split('.')[-1] }}
+                            </span>
+                            <a style="color: #ffb62f;" href="{{ url_for('download', filename=file) }}">Завантажити</a>
+                        {% endif %}
+                        <a href="javascript:void(0);" onclick="confirmDelete('{{ url_for('delete_file', folder_name=folder_name, filename=file) }}', '{{ file }}')">
+                            <i class="fas fa-trash-alt" style="color: #e53c1e;"></i>
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <!-- <p style="font-size: 18px; color: rgb(230, 150, 22);">У вас ще немає файлів</p> -->
+            {% endif %}
+    
+            {% for folder in folders %}
+                <li style="border-radius: 10px;">
+                    <span style="color: #fff200;">Folder</span> <span>{{ folder }}</span> |
+                    <a style="color: #ffb62f;" href="{{ url_for('open_subfolder', folder_name=folder_name, subfolder_name=folder) }}">Відкрити папку</a>
+                    <!-- <a style="color: #e56d1e;" href="{{ url_for('delete_subfolder', folder_name=folder_name, subfolder_name=folder) }}">Delete Folder</a> -->
+                    <a href="javascript:void(0);" onclick="confirmDelete('{{ url_for('delete_subfolder', folder_name=folder_name, subfolder_name=folder) }}', '{{ file }}')">
+                        <i class="fas fa-trash-alt" style="color: #e53c1e;"></i>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if not files and not folders %}
+            <p style="font-size: 18px; color: rgb(230, 150, 22);">У папці немає файлів та папок</p>
+        {% endif %}
+    </center>
+
+
+    <a href="#x" class="overlay" id="win1"></a>
+    <div class="popup">
+        <center>
+            <form action="{{ url_for('create_subfolder', folder_name=folder_name) }}" method="post">
+                <label class="custom-field three">
+                    <input type="text" name="subfolder_name" id="folder_name_input" placeholder="&nbsp;" / required>
+                    <!-- <input type="text" name="" > -->
+                    <span class="placeholder">ім'я папки</span>
+                    <span class="border"></span>
+                </label>
+                <button type="submit" id="create_folder_button" disabled>Створити папку</button>
+                <a class="close" title="Закрыть" href="#close"></a>
+            </form>
+        </center>
+    </div>
+
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+
+        function showUploadPopup() {
+            var popup = document.getElementById('upload-popup');
+            popup.style.display = 'block';
+
+            var form = document.getElementById('upload-form');
+            var fileInput = document.getElementById('file-input');
+            var progressBar = document.getElementById('progress-bar');
+            var percentLabel = document.getElementById('percent-label');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open(form.method, form.action);
+
+            xhr.upload.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    var percent = Math.round((event.loaded / event.total) * 100);
+                    progressBar.style.width = percent + '%';
+                    percentLabel.innerHTML = percent + '% загружено';
+                }
+            };
+
+            xhr.onload = function () {
+                // Действия после завершения загрузки файла
+                // например, обновление списка файлов
+
+                // Запуск перезагрузки страницы через 2 секунды
+                setTimeout(function () {
+                    location.reload();
+                }, 2000);
+            };
+
+            xhr.onerror = function () {
+                // Обработка ошибок при загрузке файла
+            };
+
+            var formData = new FormData(form);
+            xhr.send(formData);
+        }
+        $('.input-file input[type=file]').on('change', function () {
+            let file = this.files[0];
+            $(this).closest('.input-file').find('.input-file-text').html(file.name);
+        });
+
+        document.getElementById('folder_name_input').addEventListener('input', function () {
+            var folderNameInput = this.value.trim();
+            var createFolderButton = document.getElementById('create_folder_button');
+            createFolderButton.disabled = folderNameInput === '';
+        });
+
+        function confirmDelete(action, itemName) {
+            var result = confirm("Are you sure you want to delete " + itemName + "?");
+            if (result) {
+                window.location.href = action;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

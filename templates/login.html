@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>File Sharing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <!-- <link rel="icon" type="image/png" href="images/icons/favicon.ico"/> -->
+    <!-- <img src="{{ url_for('static', filename='images/icons/favicon.ico') }}" alt="Image"> -->
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css"> -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='fonts/iconic/css/material-design-iconic-font.min.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css"> -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/css-hamburgers/hamburgers.min.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css"> -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/animsition/css/animsition.min.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css"> -->
+    <link rel="stylesheet" type="text/css"
+        href="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.css') }}">
+    <!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icons/getFiles-beckap.ico') }}" />
+    <!--===============================================================================================-->
+</head>
+
+<style>
+    .text-with-button {
+        /* display: flex; */
+        align-items: center;
+    }
+
+    .text-with-button p {
+        margin-right: 10px;
+    }
+
+    .main-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-top: 30px;
+        font-family: 'Montserrat', sans-serif;
+        text-align: right;
+        padding-right: 15px;
+        /* Для выравнивания меню по центру
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            */
+    }
+
+    .main-menu>li {
+        display: inline-flex;
+    }
+
+    .main-menu>li+li {
+        margin-left: 20px;
+    }
+
+    .main-menu>li>a {
+        padding: 0 0 20px 0;
+        position: relative;
+        text-transform: uppercase;
+        /* color: #000; */
+        color: #8b8686;
+        font-weight: bold;
+        letter-spacing: 0.2px;
+        font-size: 15px;
+        text-decoration: none;
+    }
+
+    .main-menu__ {
+        padding: 0 0 20px 0;
+        position: relative;
+        text-transform: uppercase;
+        /* color: #000; */
+        color: #7e7fb9;
+        font-weight: bold;
+        letter-spacing: 0.2px;
+        font-size: 15px;
+        text-decoration: none;
+    }
+
+    .main-menu>li>a:hover {
+        text-decoration: none;
+        color: #7e7fb9;
+    }
+
+    .main-menu>li>a:after {
+        width: 0;
+        height: 3px;
+        background-color: #4446b1;
+        content: '';
+        left: 0;
+        bottom: 10px;
+        position: absolute;
+        transition: all .3s;
+    }
+
+    .main-menu>li>a:hover::after {
+        width: 100%;
+    }
+
+    .main-menu>li.active a:after {
+        width: 100%;
+    }
+
+    .main-menu li {
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .main-menu li.menu-children {
+        position: relative;
+        margin-right: 12px;
+    }
+
+    .main-menu li.menu-children:after {
+        position: absolute;
+        content: "\2039";
+        color: #337AB7;
+        font-size: 20px;
+        font-weight: bold;
+        right: -12px;
+        top: -2px;
+        transform: rotate(-90deg);
+    }
+
+    .main-menu li li.menu-children:after {
+        position: absolute;
+        content: "\2039";
+        color: #FFF;
+        font-size: 20px;
+        font-weight: bold;
+        right: 10px;
+        top: 12px;
+        transform: rotate(180deg);
+    }
+
+    .main-menu li.menu-children:hover>ul {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .main-menu ul {
+        padding: 10px 0;
+        margin: 0;
+        list-style: none;
+        background-color: #337AB7;
+        position: absolute;
+        z-index: 20;
+        min-width: 220px;
+        top: 100%;
+        left: -30px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(5px);
+        transition: all 200ms cubic-bezier(0.43, 0.59, 0.16, 1.25);
+    }
+
+    .main-menu ul li {
+        display: block;
+        padding: 0 10px;
+        line-height: 1.1;
+    }
+
+    .main-menu ul li:last-child {
+        margin-bottom: 0;
+    }
+
+    .main-menu ul li a {
+        display: block;
+        color: #fff;
+        padding: 10px;
+        transition: all .3s;
+        text-decoration: none;
+    }
+
+    .main-menu ul li a:hover {
+        color: #337AB7;
+        background: #FFF;
+        text-decoration: none;
+    }
+
+    .main-menu ul ul {
+        top: 0;
+        left: 100%;
+    }
+
+    .unselectable {
+        -webkit-touch-callout: none;
+        /* iOS Safari */
+        -webkit-user-select: none;
+        /* Chrome/Safari/Opera */
+        -khtml-user-select: none;
+        /* Konqueror */
+        -moz-user-select: none;
+        /* Firefox */
+        -ms-user-select: none;
+        /* Internet Explorer/Edge */
+        user-select: none;
+    }
+
+    body {
+        color: #8b8686;
+        font: 1em 'Open Sans', sans-serif;
+        background-color: #333;
+    }
+
+    html {
+        overflow: hidden;
+    }
+</style>
+
+<body class="unselectable">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div>{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <center>
+        <ul class="main-menu">
+            <!-- Остальные элементы меню -->
+            {% if session['username'] %}
+            <li class="menu">
+                <a href="{{ url_for('account') }}">Акаунт: <span class="main-menu__">{{ session['username']
+                        }}</span></a>
+            </li>
+            {% endif %}
+        </ul>
+    </center>
+
+    <div class="limiter">
+        <center>
+            <div>
+                <div class="wrap-login100">
+                    <form class="login100-form validate-form" action="{{ url_for('login') }}" method="post">
+                        <span class="login100-form-title p-b-26">
+                            Вхід
+                        </span>
+                        <span class="login100-form-title p-b-48">
+                            <i class="zmdi zmdi-font"></i>
+                        </span>
+
+
+                        <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+                            <input class="input100" type="text" id="username" name="username" required>
+                            <span class="focus-input100" data-placeholder="ім'я користувача"></span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter password">
+                            <span class="btn-show-pass">
+                                <i class="zmdi zmdi-eye"></i>
+                            </span>
+                            <input class="input100" type="password" id="password" name="password" required>
+                            <span class="focus-input100" data-placeholder="Пароль"></span>
+                        </div>
+
+                        <div class="container-login100-form-btn">
+                            <div class="wrap-login100-form-btn">
+                                <div class="login100-form-bgbtn"></div>
+                                <button class="login100-form-btn" type="submit">Увійти</button>
+                            </div>
+                        </div>
+
+                        <div class="text-center p-t-115">
+                            <span class="txt1">
+                                Немає облікового запису?
+                            </span>
+                            <a class="txt2" href="{{ url_for('register') }}">Зарегистрироваться</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </center>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/animsition/js/animsition.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        setTimeout(function () {
+            var wrongPasswordDiv = document.getElementById('wrong-password');
+            if (wrongPasswordDiv) {
+                wrongPasswordDiv.style.display = 'none';
+            }
+
+            var usernameNotFoundDiv = document.getElementById('username-not-found');
+            if (usernameNotFoundDiv) {
+                usernameNotFoundDiv.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+</body>
+
+
+</html>

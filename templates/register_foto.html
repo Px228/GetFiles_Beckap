@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Sharing</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="css/style.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->  
+        <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+        <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <!--===============================================================================================-->
+        <!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+        <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <!--===============================================================================================-->
+        <!-- <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css"> -->
+        <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='fonts/iconic/css/material-design-iconic-font.min.css') }}">
+    <!--===============================================================================================-->
+        <!-- <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"> -->
+        <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+    <!--===============================================================================================-->  
+        <!-- <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css"> -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/css-hamburgers/hamburgers.min.css') }}">
+    <!--===============================================================================================-->
+        <!-- <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css"> -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/animsition/css/animsition.min.css') }}">
+    <!--===============================================================================================-->
+        <!-- <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css"> -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
+    <!--===============================================================================================-->  
+        <!-- <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css"> -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.css') }}">
+    <!--===============================================================================================-->
+        <!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="css/main.css"> -->
+    
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <!--===============================================================================================-->
+    <style>
+        .text-with-button {
+            /* display: flex; */
+            align-items: center;
+        }
+        .text-with-button p {
+            margin-right: 10px;
+        }
+
+        .main-menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            text-align: right;
+            padding-right: 15px;
+            /* Для выравнивания меню по центру
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            */
+        }
+        .main-menu > li {
+            display: inline-flex; 
+        }
+        .main-menu > li + li {
+            margin-left: 20px; 
+        }
+        .main-menu > li > a {
+            padding: 0 0 20px 0;
+            position: relative; 
+            text-transform: uppercase;    
+            /* color: #000; */
+            color: #8b8686;
+            font-weight: bold;
+            letter-spacing: 0.2px;
+            font-size: 15px;
+            text-decoration: none;    
+        }
+
+        .main-menu__ {
+            padding: 0 0 20px 0;
+            position: relative; 
+            text-transform: uppercase;    
+            /* color: #000; */
+            color: #7e7fb9;
+            font-weight: bold;
+            letter-spacing: 0.2px;
+            font-size: 15px;
+            text-decoration: none;    
+        }
+
+        .main-menu > li > a:hover {
+            text-decoration: none;    
+            color: #7e7fb9;
+        }
+        .main-menu > li > a:after {
+            width: 0;
+            height: 3px;
+            background-color: #4446b1;
+            content: '';
+            left: 0;
+            bottom: 10px;
+            position: absolute;
+            transition: all .3s; 
+        }
+        .main-menu > li > a:hover::after {
+            width: 100%; 
+        }
+        .main-menu > li.active a:after {
+            width: 100%; 
+        }
+        .main-menu li {
+            margin: 0;
+            white-space: nowrap; 
+        }
+        .main-menu li.menu-children {
+            position: relative; 
+            margin-right: 12px; 
+        }
+        .main-menu li.menu-children:after {
+            position: absolute; 
+            content: "\2039";
+            color: #337AB7;
+            font-size: 20px;
+            font-weight: bold;
+            right: -12px;
+            top: -2px;
+            transform: rotate(-90deg);
+        }
+        .main-menu li li.menu-children:after {
+            position: absolute; 
+            content: "\2039";
+            color: #FFF;
+            font-size: 20px;
+            font-weight: bold;
+            right: 10px;
+            top: 12px;
+            transform: rotate(180deg);
+        }
+        .main-menu li.menu-children:hover > ul {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0); 
+        }
+        .main-menu ul {
+            padding: 10px 0;
+            margin: 0;
+            list-style: none;
+            background-color: #337AB7;
+            position: absolute;
+            z-index: 20;
+            min-width: 220px;
+            top: 100%;
+            left: -30px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(5px);
+            transition: all 200ms cubic-bezier(0.43, 0.59, 0.16, 1.25); 
+        }
+        .main-menu ul li {
+            display: block;
+            padding: 0 10px;
+            line-height: 1.1; 
+        }
+        .main-menu ul li:last-child {
+            margin-bottom: 0; 
+        }
+        .main-menu ul li a {
+            display: block;
+            color: #fff; 
+            padding: 10px;
+            transition: all .3s; 
+            text-decoration: none;    
+        }
+        .main-menu ul li a:hover {
+            color: #337AB7; 
+            background: #FFF;
+            text-decoration: none;    
+        }
+        .main-menu ul ul {
+            top: 0;
+            left: 100%; 
+        }
+
+
+        /* @charset "UTF-8"; */
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300&subset=latin,cyrillic);
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /**
+        * Максимальная высота базового контейнера
+        */
+        html {
+            font-size: 100%;
+        }
+        html { overflow: hidden; }
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            color: #333;
+            font: 1em 'Open Sans', sans-serif;
+            background-color: #f1f1f1;
+        }
+
+
+        /* изменяем полоcу прокрутки */
+
+        ::-webkit-scrollbar {
+            width: .65em;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #333;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(170, 170, 170, 0.6);
+            border-radius: 5px;
+            box-shadow: inset 0.05em 0.05em 0 rgba(0, 0, 0, 0.1), inset 0 -0.05em 0 rgba(0, 0, 0, 0.07);
+        }
+
+        main {
+            max-width: 1024px;
+            margin: 0 auto
+        }
+
+        article {
+            margin: 0 1em;
+            padding: 0 22px;
+            -webkit-transition: -webkit-transform .3s;
+            -moz-transition: -moz-transform .3s;
+            transition: transform .3s;
+        }
+
+        header {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        footer {
+            font-size: 14px;
+            text-align: center
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        hr {
+            margin: 22px 0;
+            height: 1px;
+            border: 0;
+            background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            background-image: linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+        }
+
+        h1,
+        h2 {
+            margin-bottom: 22px;
+            color: #191919;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 32px;
+            line-height: 32px;
+        }
+
+        h2 {
+            color: #565d66;
+            font-size: 26px;
+            line-height: 26px;
+        }
+
+        a {
+            color: #006b05;
+            text-decoration: none;
+        }
+
+        .menu {
+            position: fixed; /* Фиксированное положение */
+            right: 10px; /* Расстояние от правого края окна браузера */
+            top: 1%; /* Расстояние сверху */
+            padding: 10px; /* Поля вокруг текста */ 
+            /* background: #ffe; Цвет фона  */
+            /* border: 1px solid #333; Параметры рамки  */
+        }
+
+        .custom-file-button {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #337ab7;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .custom-file-button input[type="file"] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .custom-file-button:hover {
+            background-color: #286090;
+        }
+
+
+        body {
+            color: #8b8686;
+            /* font: 1em 'Open Sans', sans-serif; */
+            background-color: #333;
+        }
+
+        .text_lac {
+            /* color: #3376ce; */
+            margin-bottom: 22px;
+            color: #6f70a7;
+            font-weight: 300;
+        }
+
+        .ss {
+            margin-bottom: 22px;
+            color: #4446b1;
+            font-weight: 300;
+        }
+
+
+        .input-file {
+            position: relative;
+            display: inline-block;
+        }
+        .input-file-btn {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            outline: none;
+            text-decoration: none;
+            font-size: 14px;
+            vertical-align: middle;
+            color: rgb(255 255 255);
+            text-align: center;
+            border-radius: 4px;
+            background-color: #007bff;
+            line-height: 22px;
+            height: 40px;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            border: none;
+            margin: 0;
+            transition: background-color 0.2s;
+        }
+        .input-file-text {
+            padding: 0 10px;
+            line-height: 40px;
+            display: inline-block;
+        }
+        .input-file input[type=file] {
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+            display: block;
+            width: 0;
+            height: 0;
+        }
+
+        /* Focus */
+        .input-file input[type=file]:focus + .input-file-btn {
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        }
+
+        /* Hover/Active */
+        .input-file:hover .input-file-btn {
+            background-color: #007bff;
+        }
+        .input-file:active .input-file-btn {
+            background-color: #0063cd;
+        }
+
+        /* Disabled */
+        .input-file input[type=file]:disabled + .input-file-btn {
+            background-color: #eee;
+        }
+
+        .vk,.ok,.mail{display:inline-block;}
+
+        .list-rectangle {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  }
+  .list-rectangle>li {
+  position: relative;
+  display: block;
+  margin-bottom: .25rem;
+  padding: .325rem .825rem .325rem 1.325rem;
+  color: #fff;
+  background: #C2185B;
+  width: 500px;
+  }
+  .list-rectangle>li:last-child {
+  margin-bottom: 0;
+  }
+  .list-rectangle>li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0.5rem;
+  background: #ec407a;
+  }
+
+  .left_btn {
+    text-align: left;
+  }
+
+  .unselectable {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;
+}
+    </style>
+</head>
+<body class="unselectable">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    
+    {% endif %}
+    {% endwith %}
+
+    
+    <!-- <center><h1>Welcome</h1></center> -->
+    
+    <center><ul class="main-menu">
+        <!-- <li class="active"><a href="#url">Главная</a></li> -->
+        <!-- <li class="menu-children"> -->
+            <!-- <a href="#url">Услуги</a>
+            <ul>
+                <li><a href="#url">Продажа</a></li>
+                <li><a href="#url">Покупка</a></li>
+                <li class="menu-children">
+                    <a href="#url">Обмен</a>
+                    <ul>
+                        <li><a href="#url">Шило на мыло</a></li>
+                        <li><a href="#url">Мыло на шило</a></li>            
+                    </ul>
+                </li>            
+            </ul> -->
+        <!-- </li> -->
+        <!-- <li><a href="#url">Новости</a></li> -->
+        <!-- <li><a href="#url">Фотогалерея</a></li> -->
+        <!-- <li class="menu"><a href="{{ url_for('account') }}">Акаунт: <span class="main-menu__">{{ session['username'] }}</span></a></li> -->
+        <ul class="main-menu">
+            <!-- Остальные элементы меню -->
+            {% if session['username'] %}
+                <li class="menu">
+                    <a href="{{ url_for('account') }}">Акаунт: <span class="main-menu__">{{ session['username'] }}</span></a>
+                </li>
+            {% endif %}
+        </ul>
+    </ul></center>
+
+    <div class="text-with-button">
+        {% if 'username' in session %}
+        <center><h1 class="text_lac">ласкаво просимо <span class="ss">{{ session['username'] }}</span> на сховище</h1></center>
+        <div style="text-align: right; display: flex;">
+            <!-- <a href="{{ url_for('account') }}" class="btn btn-primary se">Аккаунт: {{ session['username'] }}</a> -->
+        </div>
+    </div>
+
+    
+
+    <center><h3 style="padding-bottom: 15PX;">Завантажити файл</h3></center>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <!-- <center><input type="file" name="file" required></center> -->
+        <!-- <center><input type="submit" class="btn btn-primary" value="Upload"></center> -->
+
+
+        <center><form method="post" enctype="multipart/form-data">
+	        <label class="input-file mail">
+                <input type="file" name="file">
+                <span class="input-file-btn">виберіть файл</span>           
+                <span class="input-file-text">файл не вибраний</span>
+ 	        </label>
+            <!-- <center><input type="submit" class="btn btn-primary" value="Upload"></center> -->
+            <input type="submit" class="btn btn-primary" value="Upload">
+        </form></center>
+          
+    </form>
+
+    <center><h3>↓↓ ваші файликі ↓↓</h3></center>
+    <center><ul class="list-rectangle">
+        {% for file in files %}
+        <li>
+            <span>{{ file }}</span>
+            <a style="color: #8b8686;" href="{{ url_for('delete', filename=file) }}">Delete</a>
+            <a style="color: #8b8686;" href="{{ url_for('download', filename=file) }}">Download</a>
+        </li>
+        {% endfor %}
+    </ul></center>
+
+    <!-- <form style="text-align: right;" method="post">
+        <button type="submit" class="btn btn-danger">Видалити аккаунт</button>
+    </form> -->
+    
+    
+
+    <!-- <h3><a href="{{ url_for('logout') }}">Logout</a></h3> -->
+
+    <!-- <center style="text-align: right;"><h3><a style="text-align: right;" href="{{ url_for('logout') }}">Logout</a></h3></center> -->
+
+    <!-- <center><a style="text-align: right;" href="{{ url_for('account') }}">{{ session['username'] }}</a></center> -->
+    <script src="https://snipp.ru/cdn/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+    $('.input-file input[type=file]').on('change', function(){
+        let file = this.files[0];
+        $(this).closest('.input-file').find('.input-file-text').html(file.name);
+    });
+    </script>
+</body>
+</html>
+
+
+
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% endif %}
+    {% endwith %}
+
+    <center>
+        <ul class="main-menu">
+            <!-- Остальные элементы меню -->
+            {% if session['username'] %}
+                <li class="menu">
+                    <a href="{{ url_for('account') }}">Акаунт: <span class="main-menu__">{{ session['username'] }}</span></a>
+                </li>
+            {% endif %}
+        </ul>
+    </center>
+</body>
+</html>
+
+
+
+{% else %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>File Sharing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->  
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+<!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+<!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css"> -->
+    <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='fonts/iconic/css/material-design-iconic-font.min.css') }}">
+<!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"> -->
+    <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+<!--===============================================================================================-->  
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/css-hamburgers/hamburgers.min.css') }}">
+<!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/animsition/css/animsition.min.css') }}">
+<!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/select2/select2.min.css') }}">
+<!--===============================================================================================-->  
+    <!-- <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.css') }}">
+<!--===============================================================================================-->
+    <!-- <link rel="stylesheet" type="text/css" href="css/util.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="css/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+<!--===============================================================================================-->
+</head>
+
+<style>
+    .unselectable {
+-webkit-touch-callout: none; /* iOS Safari */
+-webkit-user-select: none;   /* Chrome/Safari/Opera */
+-khtml-user-select: none;    /* Konqueror */
+-moz-user-select: none;      /* Firefox */
+-ms-user-select: none;       /* Internet Explorer/Edge */
+user-select: none;
+/* padding-top: 50px; */
+}
+body {
+    color: #8b8686;
+    font: 1em 'Open Sans', sans-serif;
+    background-color: #333;
+}
+</style>
+
+<body class="unselectable">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div>{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="limiter">
+        <center><div>
+            <div class="wrap-login100">
+                <form class="login100-form validate-form" action="{{ url_for('register') }}" method="post">
+                    <span class="login100-form-title p-b-26">
+                        Реєстрація
+                    </span>
+                    <span class="login100-form-title p-b-48">
+                        <i class="zmdi zmdi-font"></i>
+                    </span>
+
+                    <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+                        <input class="input100" type="text" id="username" name="username" required>
+                        <span class="focus-input100" data-placeholder="ім'я користувача"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Enter password">
+                        <span class="btn-show-pass">
+                            <i class="zmdi zmdi-eye"></i>
+                        </span>
+                        <input class="input100" type="password" id="password" name="password" required>
+                        <span class="focus-input100" data-placeholder="Пароль"></span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <div class="wrap-login100-form-btn">
+                            <div class="login100-form-bgbtn"></div>
+                            <!-- <button class="login100-form-btn">
+                                Login
+                            </button> -->
+                            <button class="login100-form-btn" type="submit">Зареєструватись</button>
+                        </div>
+                    </div>
+
+                    <div class="text-center p-t-115">
+                        <a class="txt2" href="{{ url_for('login_foto') }}">
+                            Увійти
+                        </a>
+
+
+                        <span class="txt1">
+                            в обліковий запис
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div></center>
+    </div>
+    
+
+    <div id="dropDownSelect1"></div>
+    
+<!--===============================================================================================-->
+    <!-- <script src="vendor/jquery/jquery-3.2.1.min.js"></script> -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+<!--===============================================================================================-->
+    <!-- <script src="vendor/animsition/js/animsition.min.js"></script> -->
+    <script src="{{ url_for('static', filename='vendor/animsition/js/animsition.min.js') }}"></script>
+<!--===============================================================================================-->
+    <!-- <script src="vendor/bootstrap/js/popper.js"></script> -->
+    <!-- <script src="vendor/bootstrap/js/bootstrap.min.js"></script> -->
+
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<!--===============================================================================================-->
+    <!-- <script src="vendor/select2/select2.min.js"></script> -->
+    <script src="{{ url_for('static', filename='vendor/select2/select2.min.js') }}"></script>
+<!--===============================================================================================-->
+    <!-- <script src="vendor/daterangepicker/moment.min.js"></script> -->
+    <!-- <script src="vendor/daterangepicker/daterangepicker.js"></script> -->
+
+    <script src="{{ url_for('static', filename='vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/daterangepicker/daterangepicker.js') }}"></script>
+<!--===============================================================================================-->
+    <!-- <script src="vendor/countdowntime/countdowntime.js"></script> -->
+    <script src="{{ url_for('static', filename='vendor/countdowntime/countdowntime.js') }}"></script>
+<!--===============================================================================================-->
+    <!-- <script src="js/main.js"></script> -->
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
+{% endif %}
