@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
 from werkzeug.utils import secure_filename
 import os
@@ -29,6 +29,10 @@ class User(db.Model):
     def __init__(self, username, password):
         self.username = username
         self.password = password
+    
+    def set_password(self, new_password):
+        self.password = generate_password_hash(new_password)
+
 
 # Decorate a function with the app context
 def initialize_database():
@@ -67,6 +71,38 @@ def index():
 
     total_files = len(glob.glob(os.path.join(app.config['UPLOAD_FOLDER'], '**', '*'), recursive=True))
     return render_template('index.html', files=files, total_files=total_files, folder_exists=folder_exists)
+
+@app.route('/change-password', methods=['GET', 'POST'])
+def change_password():
+    if 'username' not in session:
+        flash('Please log in')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        username = session['username']
+        user = User.query.filter_by(username=username).first()
+
+        old_password = request.form['old_password']
+        new_password = request.form['new_password']
+        confirm_new_password = request.form['confirm_new_password']
+
+        # Check if the old password is correct
+        if check_password_hash(user.password, old_password):
+            # Check if the new password and confirmation match
+            if new_password == confirm_new_password:
+                # Update the user's password
+                user.set_password(new_password)
+                db.session.commit()
+
+                flash('Password updated successfully')
+                return redirect(url_for('account'))
+            else:
+                flash('New password and confirmation do not match')
+        else:
+            flash('Incorrect old password')
+
+    return render_template('change_password.html')
+
 
 @app.route('/open-folder/<folder_name>')
 def open_folder(folder_name):
@@ -348,18 +384,60 @@ def login():
 #     return render_template('login.html')
 
 
+# Existing imports and code...
+
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if 'username' not in session or session['username'] != 'admin':
+        flash('Unauthorized access')
+        return redirect(url_for('index'))
+
+    users = User.query.all()
+    return render_template('admin.html', users=users)
 
 
 
 @app.route('/account', methods=['GET', 'POST'])
 def account():
     files = []
-    if 'username' in session:
+    if 'username' in session and session['username'] == 'admin':
         username = session['username']
         user_folder = os.path.join(app.config['UPLOAD_FOLDER'], username)
         if os.path.exists(user_folder):
             files = os.listdir(user_folder)
-    return render_template('account.html')
+        users = User.query.all()
+        return render_template('account.html', users=users)
+    return render_template('account.html', files=files)
+
+
+from flask import Flask, request, jsonify, session
+import shutil
+import os
+
+@app.route('/delete-user/<username>', methods=['DELETE'])
+def delete_user(username):
+    if 'username' not in session or session['username'] != 'admin':
+        # If not logged in as admin, return an error
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 401
+    
+    # Check if the user exists in the database
+    user = User.query.filter_by(username=username).first()
+    if not user:
+        return jsonify({'success': False, 'message': 'User not found'}), 404
+
+    # Delete the user's folder from the filesystem
+    user_folder = os.path.join(app.config['UPLOAD_FOLDER'], username)
+    if os.path.exists(user_folder):
+        shutil.rmtree(user_folder)
+
+    # Delete the user from the database
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'User and folder deleted successfully'}), 200
+
+
+
 
 
 @app.route('/logout')

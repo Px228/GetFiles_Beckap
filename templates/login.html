@@ -54,6 +54,22 @@
         align-items: center;
     }
 
+    /* изменяем полоcу прокрутки */
+
+    ::-webkit-scrollbar {
+            width: .65em;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #333;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(170, 170, 170, 0.6);
+            border-radius: 5px;
+            box-shadow: inset 0.05em 0.05em 0 rgba(0, 0, 0, 0.1), inset 0 -0.05em 0 rgba(0, 0, 0, 0.07);
+        }
+
     .text-with-button p {
         margin-right: 10px;
     }
@@ -232,9 +248,9 @@
         background-color: #333;
     }
 
-    html {
+    /* html {
         overflow: hidden;
-    }
+    } */
 </style>
 
 <body class="unselectable">
@@ -291,7 +307,7 @@
                             </div>
                         </div>
 
-                        <div class="text-center p-t-115">
+                        <div class="text-center p-t-55">
                             <span class="txt1">
                                 Немає облікового запису?
                             </span>

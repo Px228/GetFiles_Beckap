@@ -27,29 +27,59 @@
     color: #8b8686;
     font: 1em 'Open Sans', sans-serif;
     background-color: #333;
-}
+  }
 
 
-.te {
-  /* color: #7d6d6d; */
-  background-color: #514d4d;
-}
+  .te {
+    /* color: #7d6d6d; */
+    background-color: #514d4d;
+  }
 
-.btn-custom {
-  background-color: #cbcdea;
-  /* Дополнительные стили по желанию */
-}
+  .btn-custom {
+    background-color: #cbcdea;
+    /* Дополнительные стили по желанию */
+  }
 
-.unselectable {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* Internet Explorer/Edge */
-  user-select: none;           /* Non-prefixed version, currently
-                                  not supported by any browser */
-}
+  .unselectable {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;   /* Chrome/Safari/Opera */
+    -khtml-user-select: none;    /* Konqueror */
+    -moz-user-select: none;      /* Firefox */
+    -ms-user-select: none;       /* Internet Explorer/Edge */
+    user-select: none;           /* Non-prefixed version, currently
+                                    not supported by any browser */
+  }
 
+  .nav-pills a.nav-link {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+    color: #2da6d7;
+  }
+  ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+  li {
+      background-color: #f2f2f2;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+
+  .delete-btn {
+      background-color: #ff0000;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+  }
 </style>
 
 <body class="unselectable">
@@ -73,13 +103,15 @@
             </a>
             <!-- <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">
               <i class="fa fa-key text-center mr-1"></i> 
-              Password
-            </a>
+              Пароль
+            </a> -->
+            {% if session['username'] == 'admin' %}
             <a class="nav-link" id="security-tab" data-toggle="pill" href="#security" role="tab" aria-controls="security" aria-selected="false">
               <i class="fa fa-user text-center mr-1"></i> 
-              Security
+              Куростувачі
             </a>
-            <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab" aria-controls="application" aria-selected="false">
+            {% endif %}
+            <!-- <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab" aria-controls="application" aria-selected="false">
               <i class="fa fa-tv text-center mr-1"></i> 
               Application
             </a> -->
@@ -152,66 +184,61 @@
               </form>
             </div>
           </div>
+
+          
           <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
             <h3 class="mb-4">Password Settings</h3>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label>Old password</label>
-                    <input type="password" class="form-control">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Old password</label>
+                        <input type="password" id="oldPassword" class="form-control">
+                    </div>
                 </div>
-              </div>
             </div>
             <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label>New password</label>
-                    <input type="password" class="form-control">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>New password</label>
+                        <input type="password" id="newPassword" class="form-control">
+                    </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label>Confirm new password</label>
-                    <input type="password" class="form-control">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Confirm new password</label>
+                        <input type="password" id="confirmNewPassword" class="form-control">
+                    </div>
                 </div>
-              </div>
             </div>
             <div>
-              <button class="btn btn-primary">Update</button>
-              <button class="btn btn-light">Cancel</button>
+                <button class="btn btn-primary" onclick="updatePassword()">Update</button>
+                <button class="btn btn-light">Cancel</button>
+            </div>
+        </div>
+        
+
+
+        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+          <h3 class="mb-4">Куростувачі</h3>
+          <div>
+            <!-- <button class="btn btn-primary" data-toggle="tab" id="toggleButton">Show Users</button> -->
+            <div id="hiddenText" class="hidden-text">
+              <ul>
+                {% for user in users %}
+                    <li>
+                        {{ user.username }}
+                        <button class="delete-btn" onclick="deleteUser('{{ user.username }}')">Delete</button>
+                    </li>
+                {% endfor %}
+              </ul>
             </div>
           </div>
-          <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-            <h3 class="mb-4">Security Settings</h3>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label>Login</label>
-                    <input type="text" class="form-control">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                    <label>Two-factor auth</label>
-                    <input type="text" class="form-control">
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="recovery">
-                    <label class="form-check-label" for="recovery">
-                    Recovery
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-primary">Update</button>
-              <button class="btn btn-light">Cancel</button>
-            </div>
-          </div>
+        </div>
+        
+
+
+
+
           <div class="tab-pane fade" id="application" role="tabpanel" aria-labelledby="application-tab">
             <h3 class="mb-4">Application Settings</h3>
             <div class="row">
@@ -273,7 +300,46 @@
     </div>
   </section>
 
+  <script>
+    // JavaScript to toggle the visibility of the text
+    document.getElementById('toggleButton').addEventListener('click', function () {
+        var hiddenText = document.getElementById('hiddenText');
+        if (hiddenText.style.display === 'none') {
+            hiddenText.style.display = 'block';
+        } else {
+            hiddenText.style.display = 'none';
+        }
+    });
 
+    function deleteUser(username) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            // Make an AJAX request to the server to delete the user
+            fetch(`/delete-user/${username}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response from the server
+                console.log(data.message);
+                
+                // Check if the user was deleted successfully
+                if (data.success) {
+                    // Remove the deleted user from the list
+                    const userElement = document.getElementById(`user-${username}`);
+                    if (userElement) {
+                        userElement.remove();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+</script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
